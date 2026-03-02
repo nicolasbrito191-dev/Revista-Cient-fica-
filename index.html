@@ -81,6 +81,12 @@
             }
         }
 
+        /* Estilização robusta da transição da revista */
+        .magazine-transition {
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease, filter 0.6s ease;
+            will-change: transform, opacity;
+        }
+
         .btn-shimmer {
             position: relative;
             overflow: hidden;
@@ -213,7 +219,7 @@
                 setProgress(0);
             }, []);
 
-            // Auto-play
+            // Auto-play do Carrossel
             useEffect(() => {
                 if (view !== 'home') return;
                 const timer = setInterval(() => {
@@ -239,7 +245,7 @@
                 );
             }, [searchQuery]);
 
-            // --- VISTAS INTERNAS ---
+            // --- COMPONENTES DE VISTA ---
 
             const renderCatalog = () => (
                 <div className="w-full min-h-screen bg-[#f8fafc] page-transition text-left">
@@ -247,7 +253,7 @@
                         <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
                         <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-8 relative z-10 text-white font-black">
                             <div className="text-left slide-content-enter text-white font-black">
-                                <button onClick={goHome} className="flex items-center gap-2 text-indigo-400 font-black uppercase text-[10px] tracking-widest mb-6 hover:text-indigo-300 transition-all active:translate-x-[-4px] text-indigo-400 font-black">
+                                <button onClick={goHome} className="flex items-center gap-2 text-indigo-400 font-black uppercase text-[10px] tracking-widest mb-6 hover:text-indigo-300 transition-all active:translate-x-[-4px] text-indigo-400 font-black text-indigo-400">
                                     <Icon name="arrow-left" size={14} /> Voltar ao Início
                                 </button>
                                 <h1 className="academic-title text-3xl sm:text-5xl font-black mb-1 uppercase leading-none text-white font-black">Revista Digital 2024</h1>
@@ -260,10 +266,10 @@
                             </div>
                         </div>
                     </div>
-                    <div className="max-w-7xl mx-auto px-4 sm:px-12 py-10 sm:py-24">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-12 py-10 sm:py-24 text-left">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10 text-left">
                             {filteredArticles.map((art, index) => (
-                                <div key={art.id} className="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-slate-100 hover-lift group fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
+                                <div key={art.id} className="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-slate-100 hover-lift group fade-in-up text-left" style={{ animationDelay: `${index * 0.05}s` }}>
                                     <div className="h-44 sm:h-56 overflow-hidden relative">
                                         <img src={art.bg} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt={art.title} />
                                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent flex items-end p-5 sm:p-6 text-white text-left">
@@ -321,7 +327,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div className="w-full lg:col-span-4 bg-white/[0.03] backdrop-blur-xl p-8 rounded-[2rem] border border-white/10 text-left text-white font-black">
+                        <div className="w-full lg:col-span-4 bg-white/[0.03] backdrop-blur-xl p-8 rounded-[2rem] border border-white/10 text-left">
                             <h3 className="academic-title text-2xl font-bold mb-4 uppercase italic text-white text-left font-black">{selectedArticle.title}</h3>
                             <div className="space-y-6 text-slate-200 font-black">
                                 <div className="bg-white/[0.02] p-4 rounded-2xl border border-white/5 text-left text-slate-200 font-black"><div className="flex items-center gap-2 text-slate-400 text-[9px] uppercase font-bold tracking-widest mb-2 text-indigo-400 font-black"><Icon name="users" size={12} className="text-indigo-400" /> Autoria</div><p className="text-sm font-medium italic text-slate-200">{selectedArticle.authors}</p></div>
@@ -341,44 +347,59 @@
 
             // --- VISTA INICIAL ---
             const renderHome = () => (
-                <div className="text-left page-transition w-full bg-white font-black">
-                    {/* 1. BANNER PRINCIPAL NO TOPO ABSOLUTO */}
-                    <div className="w-full fade-in-up leading-[0] block">
+                <div className="text-left page-transition w-full bg-white font-black text-left">
+                    <div className="w-full fade-in-up leading-[0] block text-left">
                         <img src={IMAGES.top_banner} alt="Banner Revista Científica" className="w-full h-auto object-cover border-b border-slate-100" />
                     </div>
 
-                    {/* 2. SECÇÃO DE BOAS-VINDAS */}
-                    <section className="py-12 sm:py-24 px-4 sm:px-12 text-center text-slate-900 fade-in-up bg-white font-black text-slate-900">
+                    <section className="py-12 sm:py-24 px-4 sm:px-12 text-center text-slate-900 fade-in-up bg-white font-black text-slate-900 text-center">
                         <div className="inline-flex items-center gap-3 mb-6 sm:mb-8 text-indigo-600 font-black">
-                            <div className="h-px w-6 sm:w-16 bg-indigo-600"></div>
-                            <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.5em] text-indigo-600 font-bold text-indigo-600">Apresentação</span>
-                            <div className="h-px w-6 sm:w-16 bg-indigo-600"></div>
+                            <div className="h-px w-6 sm:w-16 bg-indigo-600 text-indigo-600"></div>
+                            <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.5em] text-indigo-600 font-bold text-indigo-600 text-indigo-600">Apresentação</span>
+                            <div className="h-px w-6 sm:w-16 bg-indigo-600 text-indigo-600"></div>
                         </div>
                         <h2 className="academic-title text-4xl sm:text-7xl font-black text-[#151c32] mb-6 sm:mb-10 leading-tight uppercase text-center text-[#151c32] font-black">Boas-Vindas à nossa <br/><span className="text-indigo-600 italic">Revista Científica</span></h2>
                         <p className="text-slate-500 text-lg sm:text-2xl font-light max-w-4xl mx-auto text-balance text-center text-slate-500 font-black">A excelência acadêmica e o rigor científico dos nossos Itinerários Formativos.</p>
                     </section>
 
                     <section className="bg-slate-50/50 py-12 sm:py-32 border-y border-slate-100 overflow-hidden px-4 sm:px-12 fade-in-up text-slate-900 text-left font-black">
-                        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-28 text-left font-black text-slate-900">
-                            <div className="w-full lg:w-2/5 flex flex-col items-center group text-left font-black text-slate-900">
-                                <div className="relative w-full max-w-[280px] sm:max-w-[360px] h-[380px] sm:h-[480px] text-left font-black text-slate-900">
-                                    <div className="absolute inset-0 magazine-transition opacity-100 scale-100 rotate-0">
+                        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-28 text-left font-black text-slate-900 text-left">
+                            <div className="w-full lg:w-2/5 flex flex-col items-center group text-left font-black text-slate-900 text-left">
+                                <div className="relative w-full max-w-[280px] sm:max-w-[360px] h-[380px] sm:h-[480px] text-left font-black text-slate-900 text-left">
+                                    {/* VOLUME 2024 */}
+                                    <div className={`absolute inset-0 magazine-transition ${activeMagazineYear === 2024 ? 'opacity-100 scale-100 rotate-0 z-10' : 'opacity-0 scale-90 -rotate-12 pointer-events-none z-0'}`}>
                                         <img src={IMAGES.cover_2024} className="w-full h-full object-cover img-paper-shadow border-[8px] sm:border-[10px] border-white rounded-sm" />
-                                        <div className="absolute -bottom-4 -right-4 bg-indigo-600 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-2xl shadow-2xl border-4 border-white/10 font-black italic text-sm sm:text-base text-white font-black">2024</div>
+                                        <div className="absolute -bottom-4 -right-4 bg-indigo-600 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-2xl shadow-2xl border-4 border-white/10 font-black italic text-sm sm:text-base text-white font-black text-white">2024</div>
+                                    </div>
+                                    {/* VOLUME 2025 */}
+                                    <div className={`absolute inset-0 magazine-transition ${activeMagazineYear === 2025 ? 'opacity-100 scale-100 rotate-0 z-10' : 'opacity-0 scale-90 rotate-12 pointer-events-none z-0'}`}>
+                                        <div className="w-full h-full bg-white border-[10px] border-white rounded-sm img-paper-shadow flex flex-col items-center justify-center p-8 text-slate-300">
+                                            <Icon name="lock" size={64} className="mb-6 opacity-20 text-indigo-600 text-indigo-600" /><h4 className="academic-title text-4xl font-black opacity-30 mb-2 text-slate-900 font-black">2025</h4><span className="text-[9px] font-black uppercase tracking-[0.4em] bg-slate-50 text-slate-400 px-6 py-2 rounded-full shadow-inner border border-slate-100 text-slate-400 font-black">Em Breve</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="mt-10 flex flex-row items-center gap-4 bg-white p-2 rounded-full border border-slate-200 shadow-xl text-left font-black text-slate-400">
-                                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest px-4 border-r border-slate-200">Volume</span>
-                                    <div className="flex gap-1.5">{[2024, 2025].map(year => (<button key={year} onClick={() => setActiveMagazineYear(year)} className={`w-10 h-10 rounded-full flex items-center justify-center transition-all font-black text-xs italic ${activeMagazineYear === year ? 'bg-[#151c32] text-white shadow-xl scale-110' : 'bg-transparent text-slate-400'}`}>{year.toString().slice(-2)}</button>))}</div>
+                                <div className="mt-10 flex flex-row items-center gap-4 bg-white p-2 rounded-full border border-slate-200 shadow-xl text-left font-black text-slate-400 text-left">
+                                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest px-4 border-r border-slate-200 text-slate-400 font-black">Volume</span>
+                                    <div className="flex gap-1.5 font-black text-slate-400">
+                                        {[2024, 2025].map(year => (
+                                            <button 
+                                                key={year} 
+                                                onClick={() => setActiveMagazineYear(year)} 
+                                                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all font-black text-xs italic ${activeMagazineYear === year ? 'bg-[#151c32] text-white shadow-xl scale-110 text-white' : 'bg-transparent text-slate-400'}`}
+                                            >
+                                                {year.toString().slice(-2)}
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
-                            <div className="w-full lg:w-3/5 space-y-8 text-left text-slate-900 font-black">
-                                <div className="space-y-6 text-left text-slate-900 font-black">
-                                    <div className="flex items-center gap-4 text-indigo-600 font-black text-indigo-600 font-black"><Icon name="book-marked" size={32} className="text-indigo-600" /><h2 className="academic-title text-3xl sm:text-5xl font-black text-slate-900 uppercase text-slate-900 font-black">Edição {activeMagazineYear}</h2></div>
+                            <div className="w-full lg:w-3/5 space-y-8 text-left text-slate-900 font-black text-left">
+                                <div className="space-y-6 text-left text-slate-900 font-black text-left">
+                                    <div className="flex items-center gap-4 text-indigo-600 font-black text-indigo-600 font-black text-left"><Icon name="book-marked" size={32} className="text-indigo-600 text-indigo-600" /><h2 className="academic-title text-3xl sm:text-5xl font-black text-slate-900 uppercase text-slate-900 font-black">Edição {activeMagazineYear}</h2></div>
                                     <p className="text-slate-500 text-lg sm:text-xl leading-relaxed font-light italic max-w-xl text-left text-slate-500 font-black text-left">
                                         {activeMagazineYear === 2024 
                                             ? "A edição de 2024 da Revista de Iniciação Científica do Colégio Ser Sorocaba reúne os principais projetos pelos alunos dos Itinerários Formativos, refletindo o compromisso com a pesquisa."
-                                            : "Aguarde o lançamento da nossa nova edição em desenvolvimento."}
+                                            : "Aguarde o lançamento da nossa nova edição em desenvolvimento com os projetos que estão sendo criados neste ano."}
                                     </p>
                                 </div>
                                 {activeMagazineYear === 2024 ? (
@@ -390,44 +411,37 @@
                         </div>
                     </section>
 
-                    {/* NOVA SEÇÃO DE VÍDEO DO EVENTO 2025 */}
-                    <section className="py-16 sm:py-32 bg-white px-6 fade-in-up text-slate-900 text-left font-black">
-                        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12 sm:gap-20 text-left font-black">
-                            <div className="w-full lg:w-1/2 text-left space-y-6 font-black text-slate-900">
-                                <div className="flex items-center gap-3 text-indigo-600 font-black text-indigo-600 font-black"><Icon name="play-circle" size={32} /><h2 className="academic-title text-3xl sm:text-5xl font-black text-[#151c32] uppercase text-left text-[#151c32] font-black">Confira como foi o evento de 2025</h2></div>
+                    <section className="py-16 sm:py-32 bg-white px-6 fade-in-up text-slate-900 text-left font-black text-left">
+                        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12 sm:gap-20 text-left font-black text-left">
+                            <div className="w-full lg:w-1/2 text-left space-y-6 font-black text-slate-900 text-left">
+                                <div className="flex items-center gap-3 text-indigo-600 font-black text-indigo-600 font-black text-left"><Icon name="play-circle" size={32} className="text-indigo-600" /><h2 className="academic-title text-3xl sm:text-5xl font-black text-[#151c32] uppercase text-left text-[#151c32] font-black">Confira como foi o evento de 2025</h2></div>
                                 <p className="text-slate-500 text-lg sm:text-xl font-light leading-relaxed text-left text-slate-500 font-black text-left">Reviva os melhores momentos da nossa última mostra científica, onde a inovação e o protagonismo estudantil ganharam vida.</p>
                                 <button className="px-8 py-3.5 border-2 border-[#151c32] text-[#151c32] font-black rounded-xl text-xs uppercase tracking-widest hover:bg-[#151c32] hover:text-white transition-all font-black text-[#151c32] font-black">Ver Galeria Completa</button>
                             </div>
                             <div className="w-full lg:w-1/2">
                                 <div className="video-container shadow-2xl border-4 border-slate-100 bg-black">
-                                    <iframe 
-                                        src={IMAGES.event_video_url} 
-                                        className="w-full h-full border-none" 
-                                        allow="autoplay; encrypted-media; fullscreen"
-                                    ></iframe>
+                                    <iframe src={IMAGES.event_video_url} className="w-full h-full border-none" allow="autoplay; encrypted-media; fullscreen"></iframe>
                                 </div>
                             </div>
                         </div>
                     </section>
 
-                    {/* CARROSSEL DE DESTAQUES */}
-                    <section className="relative min-h-[550px] sm:min-h-[700px] flex items-center bg-[#151c32] overflow-hidden bg-hero-carousel shadow-inner mx-0 sm:mx-12 sm:rounded-[4rem] my-0 sm:my-32 text-left fade-in-up text-white" style={{ backgroundImage: `linear-gradient(to right, rgba(21, 28, 50, 0.98), rgba(21, 28, 50, 0.7)), url('${ARTICLES_DATA[activeSlide].bg}')` }}>
+                    <section className="relative min-h-[550px] sm:min-h-[700px] flex items-center bg-[#151c32] overflow-hidden bg-hero-carousel shadow-inner mx-0 sm:mx-12 sm:rounded-[4rem] my-0 sm:my-32 text-left fade-in-up text-white text-left" style={{ backgroundImage: `linear-gradient(to right, rgba(21, 28, 50, 0.98), rgba(21, 28, 50, 0.7)), url('${ARTICLES_DATA[activeSlide].bg}')` }}>
                         <div className="absolute bottom-0 left-0 w-full h-1.5 bg-white/10 z-40 overflow-hidden">
                             <div className="h-full bg-indigo-500 transition-all duration-100 ease-linear" style={{ width: `${progress}%` }}></div>
                         </div>
-
                         <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between px-3 sm:px-14 z-30 pointer-events-none text-white font-black">
                             <button onClick={prevSlide} className="w-10 h-10 sm:w-16 sm:h-16 flex items-center justify-center rounded-full bg-white/10 border border-white/20 text-white hover:bg-indigo-600 transition-all pointer-events-auto backdrop-blur-md active:scale-90 text-white font-black"><Icon name="chevron-left" size={20} /></button>
                             <button onClick={nextSlide} className="w-10 h-10 sm:w-16 sm:h-16 flex items-center justify-center rounded-full bg-white/10 border border-white/20 text-white hover:bg-indigo-600 transition-all pointer-events-auto backdrop-blur-md active:scale-90 text-white font-black"><Icon name="chevron-right" size={20} /></button>
                         </div>
-                        <div className="relative max-w-6xl mx-auto px-6 sm:px-20 w-full z-10 text-left py-20 sm:py-0 text-white font-black">
-                            <div key={`slide-${activeSlide}`} className="slide-content-enter text-white text-left font-black text-white">
-                                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-500/20 rounded-full border border-indigo-500/30 mb-6 text-white font-black text-white font-black"><Icon name="award" size={14} className="text-indigo-300" /><span className="text-[10px] font-black uppercase tracking-widest text-indigo-200 text-white font-black">Destaque Científico</span></div>
-                                <h2 className="modern-title text-3xl sm:text-5xl md:text-7xl font-black leading-[1.1] uppercase max-w-4xl mb-8 text-white tracking-tighter text-balance text-left text-white font-black">{ARTICLES_DATA[activeSlide].title}</h2>
-                                <div className="flex flex-wrap gap-4 sm:gap-8 text-[10px] uppercase font-black tracking-[0.2em] text-indigo-300/80 mb-10 text-left text-white font-black"><span className="flex items-center gap-2 text-white border-b border-indigo-500/30 pb-1 font-black text-white font-black text-white font-black"><Icon name="book" size={14}/> {ARTICLES_DATA[activeSlide].area}</span><span className="flex items-center gap-2 text-white border-b border-indigo-500/30 pb-1 font-black text-white font-black text-white font-black text-white font-black"><Icon name="user-check" size={14}/> Prof. {ARTICLES_DATA[activeSlide].prof}</span></div>
+                        <div className="relative max-w-6xl mx-auto px-6 sm:px-20 w-full z-10 text-left py-20 sm:py-0 text-white font-black text-left">
+                            <div key={`slide-${activeSlide}`} className="slide-content-enter text-white text-left font-black text-white text-left">
+                                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-500/20 rounded-full border border-indigo-500/30 mb-6 text-white font-black text-white font-black text-white"><Icon name="award" size={14} className="text-indigo-300 text-indigo-300" /><span className="text-[10px] font-black uppercase tracking-widest text-indigo-200 text-white font-black">Destaque Científico</span></div>
+                                <h2 className="modern-title text-3xl sm:text-5xl md:text-7xl font-black leading-[1.1] uppercase max-w-4xl mb-8 text-white tracking-tighter text-balance text-left text-white font-black text-white">{ARTICLES_DATA[activeSlide].title}</h2>
+                                <div className="flex flex-wrap gap-4 sm:gap-8 text-[10px] uppercase font-black tracking-[0.2em] text-indigo-300/80 mb-10 text-left text-white font-black text-white"><span className="flex items-center gap-2 text-white border-b border-indigo-500/30 pb-1 font-black text-white font-black text-white font-black"><Icon name="book" size={14} className="text-white" /> {ARTICLES_DATA[activeSlide].area}</span><span className="flex items-center gap-2 text-white border-b border-indigo-500/30 pb-1 font-black text-white font-black text-white font-black"><Icon name="user-check" size={14} className="text-white" /> Prof. {ARTICLES_DATA[activeSlide].prof}</span></div>
                                 <div className="flex flex-col sm:flex-row gap-4 text-left text-white font-black">
-                                    <button onClick={() => navigateTo('reader', ARTICLES_DATA[activeSlide])} className="w-full sm:w-auto px-10 py-4.5 sm:py-5.5 bg-indigo-600 text-white font-black rounded-2xl hover:bg-indigo-500 transition-all shadow-2xl text-[11px] sm:text-xs uppercase tracking-[0.2em] active:scale-95 flex items-center justify-center btn-shimmer text-white font-black">LER ARTIGO <Icon name="file-text" size={18} className="ml-2" /></button>
-                                    <button onClick={() => navigateTo('banner', ARTICLES_DATA[activeSlide])} className="w-full sm:w-auto px-10 py-4.5 sm:py-5.5 bg-white/5 border border-white/20 text-white font-black rounded-2xl hover:bg-white/10 transition-all text-[11px] sm:text-xs uppercase tracking-[0.2em] backdrop-blur-md active:scale-95 flex items-center justify-center text-white font-black">VER BANNER <Icon name="image" size={18} className="ml-2" /></button>
+                                    <button onClick={() => navigateTo('reader', ARTICLES_DATA[activeSlide])} className="w-full sm:w-auto px-10 py-4.5 sm:py-5.5 bg-indigo-600 text-white font-black rounded-2xl hover:bg-indigo-500 transition-all shadow-2xl text-[11px] sm:text-xs uppercase tracking-[0.2em] active:scale-95 flex items-center justify-center btn-shimmer text-white font-black text-white">LER ARTIGO <Icon name="file-text" size={18} className="ml-2 text-white" /></button>
+                                    <button onClick={() => navigateTo('banner', ARTICLES_DATA[activeSlide])} className="w-full sm:w-auto px-10 py-4.5 sm:py-5.5 bg-white/5 border border-white/20 text-white font-black rounded-2xl hover:bg-white/10 transition-all text-[11px] sm:text-xs uppercase tracking-[0.2em] backdrop-blur-md active:scale-95 flex items-center justify-center text-white font-black text-white text-white">VER BANNER <Icon name="image" size={18} className="ml-2 text-white" /></button>
                                 </div>
                             </div>
                         </div>
@@ -435,25 +449,25 @@
 
                     <section className="bg-slate-900 py-20 sm:py-32 px-4 sm:px-12 text-left text-white relative overflow-hidden fade-in-up text-left font-black">
                         <div className="absolute bottom-0 right-0 w-full h-full bg-gradient-to-t from-indigo-600/5 to-transparent text-left"></div>
-                        <div className="max-w-6xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-16 items-center relative z-10 text-left text-white font-black">
-                            <div className="space-y-8 text-left text-white font-black text-left">
-                                <div className="flex items-center gap-4 text-indigo-400 font-black text-left text-indigo-400 font-black leading-none"><Icon name="calendar-days" size={32} /><h2 className="academic-title text-3xl sm:text-6xl font-black tracking-tight uppercase text-white font-black leading-none text-white font-black">Jornada 2026</h2></div>
-                                <p className="text-slate-400 text-lg sm:text-2xl font-light leading-relaxed text-balance text-left text-slate-400 font-black">O amanhã da ciência já está sendo construído com novos compromissos e descobertas nos Itinerários Formativos.</p>
+                        <div className="max-w-6xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-16 items-center relative z-10 text-left text-white font-black text-left">
+                            <div className="space-y-8 text-left text-white font-black text-left text-white">
+                                <div className="flex items-center gap-4 text-indigo-400 font-black text-left text-indigo-400 font-black leading-none text-left"><Icon name="calendar-days" size={32} className="text-indigo-400" /><h2 className="academic-title text-3xl sm:text-6xl font-black tracking-tight uppercase text-white font-black leading-none text-white font-black text-white">Jornada 2026</h2></div>
+                                <p className="text-slate-400 text-lg sm:text-2xl font-light leading-relaxed text-balance text-left text-slate-400 font-black text-left">O amanhã da ciência já está sendo construído com novos compromissos e descobertas nos Itinerários Formativos.</p>
                             </div>
-                            <div className="relative flex justify-center lg:justify-end text-center group text-[#151c32] font-black">
-                                <div className="bg-white p-6 sm:p-10 rounded-[3rem] sm:rounded-[4rem] shadow-2xl flex flex-col items-center justify-center w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] border border-white/10 transition-all duration-700 hover:scale-105 text-[#151c32] overflow-hidden text-center text-[#151c32] font-black">
-                                    <span className="text-[10px] sm:text-[12px] font-black uppercase tracking-[0.4em] text-slate-400 block mb-4 text-center leading-tight text-slate-400 font-black">Próximo Volume em</span>
-                                    <h3 className="academic-title text-6xl sm:text-8xl md:text-9xl font-black text-[#151c32] uppercase tracking-tighter text-center leading-none text-[#151c32] font-black">2026</h3>
-                                    <div className="h-2 w-16 bg-indigo-600 mx-auto mt-8 rounded-full opacity-30 bg-indigo-600 font-black"></div>
+                            <div className="relative flex justify-center lg:justify-end text-center group text-[#151c32] font-black text-center">
+                                <div className="bg-white p-6 sm:p-10 rounded-[3rem] sm:rounded-[4rem] shadow-2xl flex flex-col items-center justify-center w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] border border-white/10 transition-all duration-700 hover:scale-105 text-[#151c32] overflow-hidden text-center text-[#151c32] font-black">
+                                    <span className="text-[10px] sm:text-[12px] font-black uppercase tracking-[0.4em] text-slate-400 block mb-4 text-center leading-tight text-slate-400 font-black text-center">Próximo Volume em</span>
+                                    <h3 className="academic-title text-6xl sm:text-7xl md:text-8xl font-black text-[#151c32] uppercase tracking-tighter text-center leading-none text-[#151c32] font-black text-center">2026</h3>
+                                    <div className="h-2 w-16 bg-indigo-600 mx-auto mt-8 rounded-full opacity-30 bg-indigo-600 font-black text-center"></div>
                                 </div>
                             </div>
                         </div>
                     </section>
 
-                    <div className="max-w-5xl mx-auto px-6 py-20 sm:py-32 text-center border-t border-slate-50 text-center text-slate-800 font-black">
-                        <Icon name="heart" size={40} className="text-indigo-600 mb-8 mx-auto opacity-70 animate-pulse text-indigo-600 font-black" />
-                        <h3 className="academic-title text-xl sm:text-4xl font-bold italic text-slate-800 tracking-tight text-balance leading-snug text-slate-800 font-black">"O melhor caminho é o que fazemos juntos"</h3>
-                        <div className="mt-12 text-[10px] sm:text-[11px] font-black uppercase tracking-[0.4em] text-slate-300 font-black">Colégio Ser! Sorocaba • Alfabetização Científica</div>
+                    <div className="max-w-5xl mx-auto px-6 py-20 sm:py-32 text-center border-t border-slate-50 text-center text-slate-800 font-black text-center">
+                        <Icon name="heart" size={40} className="text-indigo-600 mb-8 mx-auto opacity-70 animate-pulse text-indigo-600 font-black text-indigo-600" />
+                        <h3 className="academic-title text-xl sm:text-4xl font-bold italic text-slate-800 tracking-tight text-balance leading-snug text-slate-800 font-black text-center">"O melhor caminho é o que fazemos juntos"</h3>
+                        <div className="mt-12 text-[10px] sm:text-[11px] font-black uppercase tracking-[0.4em] text-slate-300 font-black text-center text-slate-300">Colégio Ser! Sorocaba • Alfabetização Científica</div>
                     </div>
                 </div>
             );
