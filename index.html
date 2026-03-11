@@ -16,190 +16,155 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
+        :root {
+            --primary: #4f46e5; /* Indigo */
+            --secondary: #8b5cf6; /* Violet */
+            --dark: #0f172a;
+        }
+
         body { 
             font-family: 'Inter', sans-serif; 
-            background-color: #ffffff; 
+            background-color: #fafafa; 
             margin: 0;
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
-        .academic-title { font-family: 'Playfair Display', serif; }
-        .modern-title { font-family: 'Inter', sans-serif; font-weight: 900; }
         
+        .academic-title { font-family: 'Playfair Display', serif; }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(79, 70, 229, 0.15) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
         .bg-hero-carousel {
             background-size: cover;
             background-position: center;
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .fade-in-up {
-            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        /* Animações de Entrada */
+        .fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(20px); }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+        .slide-content-enter { animation: slideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+
+        /* Animação Flutuante para a Revista */
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
-        }
-
-        .slide-content-enter {
-            animation: slideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(40px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .hover-lift {
+        /* Cartões Tecnológicos - Atualizado para destaque nas bordas (Glow Effect) */
+        .tech-card {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .hover-lift:hover {
+        .tech-card:hover {
             transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 30px 60px -12px rgba(15, 23, 42, 0.2);
+            border-color: var(--secondary);
+            box-shadow: 0 20px 40px -10px rgba(79, 70, 229, 0.2), 0 0 25px rgba(139, 92, 246, 0.35);
         }
 
+        /* Capa da Revista e Quina Dobrada Realista */
         .img-paper-shadow {
-            box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.3);
+            box-shadow: 20px 20px 60px rgba(0,0,0,0.15), -1px -1px 2px rgba(255,255,255,0.8);
             transition: all 0.6s ease;
         }
 
-        /* Efeito de quina dobrada na capa - Versão Realista e Opaca */
-        .magazine-curl-container {
-            position: relative;
-            cursor: pointer;
-        }
-
+        .magazine-curl-container { position: relative; cursor: pointer; perspective: 1000px; }
         .curl-wrapper {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            border-radius: 0.125rem;
+            position: relative; width: 100%; height: 100%;
+            overflow: hidden; border-radius: 0.125rem;
+            transition: transform 0.5s ease;
         }
+        .magazine-curl-container:hover .curl-wrapper { transform: rotateY(-5deg) rotateX(2deg); }
 
         .curl-wrapper::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 0;
-            height: 0;
-            background: linear-gradient(135deg, 
-                transparent 50%, 
-                #f3f4f6 50%, 
-                #ffffff 65%,
-                #ffffff 100%);
-            box-shadow: -4px -4px 12px rgba(0, 0, 0, 0.25);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            pointer-events: none;
-            z-index: 20;
+            content: ""; position: absolute; bottom: 0; right: 0; width: 0; height: 0;
+            background: linear-gradient(135deg, transparent 48%, rgba(200, 200, 200, 0.2) 50%, #ffffff 52%, #f1f5f9 100%);
+            box-shadow: -5px -5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none; z-index: 20;
+        }
+        .magazine-curl-container:hover .curl-wrapper::after { width: 90px; height: 90px; }
+
+        /* Elementos Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .glass-panel-dark {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .magazine-curl-container:hover .curl-wrapper::after {
-            width: 90px;
-            height: 90px;
+        /* Botões Shimmer High-Tech */
+        .btn-tech {
+            position: relative; overflow: hidden; z-index: 1;
+            transition: all 0.3s ease;
         }
+        .btn-tech::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.7s ease; z-index: -1;
+        }
+        .btn-tech:hover::before { left: 100%; }
+        .btn-tech:hover { box-shadow: 0 0 20px rgba(79, 70, 229, 0.6); transform: translateY(-2px); }
 
         .pdf-viewer-container {
-            width: 100%;
-            max-width: 1000px;
-            height: 80vh; 
-            min-height: 500px;
-            background: #1a1f2e;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.6);
-            position: relative;
+            width: 100%; max-width: 1100px; height: 85vh; min-height: 500px;
+            border-radius: 24px; overflow: hidden; position: relative;
         }
         
-        @media (max-width: 640px) {
-            .pdf-viewer-container {
-                height: 70vh;
-                min-height: 450px;
-            }
-        }
-
-        .magazine-transition {
-            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease, filter 0.6s ease;
-            will-change: transform, opacity;
-        }
-
-        .btn-shimmer {
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-shimmer::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: rotate(45deg);
-            transition: 0.8s;
-            pointer-events: none;
-        }
-        .btn-shimmer:hover::after {
-            left: 150%;
-        }
-
-        .btn-action-pulse {
-            animation: pulse-action 2s infinite;
-        }
-        @keyframes pulse-action {
-            0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7); }
-            70% { box-shadow: 0 0 0 20px rgba(79, 70, 229, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
-        }
-
         .video-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
-            height: 0;
-            overflow: hidden;
-            border-radius: 32px;
-            background: #000;
+            position: relative; padding-bottom: 56.25%; height: 0;
+            overflow: hidden; border-radius: 24px; background: #000;
         }
-        .video-container iframe, .video-container video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-        .banner-overlay-btn {
-            background: #4f46e5;
-            color: white;
-            padding: 14px 28px;
-            border-radius: 99px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            font-size: 11px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 15px 35px rgba(79, 70, 229, 0.4);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* Barra Rápida */
+        .floating-nav {
+            position: sticky; top: 20px; z-index: 100;
+            transition: all 0.3s ease;
         }
+        .quick-nav-link { position: relative; transition: color 0.3s ease; }
+        .quick-nav-link::after {
+            content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 3px; background: var(--secondary); border-radius: 10px; transition: width 0.3s ease;
+        }
+        .quick-nav-link:hover::after { width: 100%; box-shadow: 0 0 10px var(--secondary); }
 
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #f8fafc; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; border: 2px solid #f8fafc; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
     </style>
 </head>
-<body>
+<body class="text-slate-800 selection:bg-violet-200 selection:text-violet-900">
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useMemo, useCallback, useRef } = React;
+        const { useState, useEffect, useMemo, useCallback } = React;
 
-        // --- CONFIGURAÇÃO DE IMAGENS E MÍDIA ---
         const IMAGES = {
             top_banner: "https://lh3.googleusercontent.com/u/0/d/1-J2lO3tufWEXNdFDbvbUaHBNqABjOPqe=w1600",
             overlay_logo: "https://lh3.googleusercontent.com/u/0/d/15x27AzxW9GANulDbLrYlqzRC6obRAXMI=w1600",
-            cover_2024: "https://lh7-rt.googleusercontent.com/sitesz/AClOY7pz2nRa1cCyR4ZTGfEK8WJ39oLERNS7PJEA42mtm9rYDl8ms-6_shb9Zm2SgI2CRO_SjBY9MIuyB5gcbV0ut-zOo_-gzE2jZrjGL5GDvnLs738q3ajmJHTYoK-62PM_CC7xKkoMJmE35WdMMOLbRQ-GXp9a0fBtsYgKWkf1Wdr-QPnHAlk?key=aCpffzizo07AapIHHMuf7A",
+            cover_v1: "https://lh7-rt.googleusercontent.com/sitesz/AClOY7pz2nRa1cCyR4ZTGfEK8WJ39oLERNS7PJEA42mtm9rYDl8ms-6_shb9Zm2SgI2CRO_SjBY9MIuyB5gcbV0ut-zOo_-gzE2jZrjGL5GDvnLs738q3ajmJHTYoK-62PM_CC7xKkoMJmE35WdMMOLbRQ-GXp9a0fBtsYgKWkf1Wdr-QPnHAlk?key=aCpffzizo07AapIHHMuf7A",
             event_video_url: "https://drive.google.com/file/d/1ofr-zpluxaNtkGjM82pDGy-sFgMAXWYZ/preview"
         };
 
@@ -222,50 +187,33 @@
             const [view, setView] = useState('home'); 
             const [selectedArticle, setSelectedArticle] = useState(null);
             const [activeSlide, setActiveSlide] = useState(0);
-            const [activeMagazineYear, setActiveMagazineYear] = useState(2024);
+            const [activeMagazineVol, setActiveMagazineVol] = useState(1);
             const [searchQuery, setSearchQuery] = useState('');
             const [progress, setProgress] = useState(0);
 
-            // FUNÇÕES DE NAVEGAÇÃO
-            const goHome = useCallback(() => {
-                setView('home');
-                setSelectedArticle(null);
-                setSearchQuery('');
-                window.scrollTo(0, 0);
-            }, []);
+            const goHome = useCallback(() => { setView('home'); setSelectedArticle(null); setSearchQuery(''); window.scrollTo(0, 0); }, []);
+            const openCatalog = useCallback(() => { setView('catalog'); setSelectedArticle(null); window.scrollTo(0, 0); }, []);
+            const navigateTo = useCallback((page, article = null) => { setSelectedArticle(article); setView(page); window.scrollTo(0, 0); }, []);
 
-            const openCatalog = useCallback(() => {
-                setView('catalog');
-                setSelectedArticle(null);
-                window.scrollTo(0, 0);
-            }, []);
+            const nextSlide = useCallback(() => { setActiveSlide(p => (p + 1) % ARTICLES_DATA.length); setProgress(0); }, []);
+            const prevSlide = useCallback(() => { setActiveSlide(p => (p - 1 + ARTICLES_DATA.length) % ARTICLES_DATA.length); setProgress(0); }, []);
 
-            const navigateTo = useCallback((page, article = null) => {
-                setSelectedArticle(article);
-                setView(page);
-                window.scrollTo(0, 0);
-            }, []);
+            const scrollToSection = (id) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    const offset = 100; // Maior offset devido ao menu flutuante
+                    const bodyRect = document.body.getBoundingClientRect().top;
+                    const elementRect = element.getBoundingClientRect().top;
+                    window.scrollTo({ top: (elementRect - bodyRect) - offset, behavior: 'smooth' });
+                }
+            };
 
-            const nextSlide = useCallback(() => {
-                setActiveSlide((prev) => (prev + 1) % ARTICLES_DATA.length);
-                setProgress(0);
-            }, []);
-
-            const prevSlide = useCallback(() => {
-                setActiveSlide((prev) => (prev - 1 + ARTICLES_DATA.length) % ARTICLES_DATA.length);
-                setProgress(0);
-            }, []);
-
-            // Auto-play do Carrossel
             useEffect(() => {
                 if (view !== 'home') return;
                 const timer = setInterval(() => {
-                    setProgress((prev) => {
-                        if (prev >= 100) {
-                            nextSlide();
-                            return 0;
-                        }
-                        return prev + 0.5;
+                    setProgress(p => {
+                        if (p >= 100) { nextSlide(); return 0; }
+                        return p + 0.5;
                     });
                 }, 30);
                 return () => clearInterval(timer);
@@ -275,51 +223,56 @@
                 const query = searchQuery.toLowerCase().trim();
                 if (!query) return ARTICLES_DATA;
                 return ARTICLES_DATA.filter(art => 
-                    art.title.toLowerCase().includes(query) ||
-                    art.authors.toLowerCase().includes(query) ||
-                    art.prof.toLowerCase().includes(query) ||
-                    art.area.toLowerCase().includes(query)
+                    art.title.toLowerCase().includes(query) || art.authors.toLowerCase().includes(query) || art.prof.toLowerCase().includes(query) || art.area.toLowerCase().includes(query)
                 );
             }, [searchQuery]);
 
-            // --- VISTAS INTERNAS ---
+            // --- VISTAS ---
 
             const renderCatalog = () => (
-                <div className="w-full min-h-screen bg-[#f8fafc] page-transition text-left text-slate-900">
-                    <div className="bg-[#151c32] text-white py-10 sm:py-16 px-4 sm:px-12 shadow-2xl relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                        <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-8 relative z-10 text-white font-black">
-                            <div className="text-left slide-content-enter">
-                                <button onClick={goHome} className="flex items-center gap-2 text-indigo-400 font-black uppercase text-[10px] tracking-widest mb-6 hover:text-indigo-300 transition-all active:translate-x-[-4px]">
-                                    <Icon name="arrow-left" size={14} /> Voltar ao Início
+                <div className="w-full min-h-screen bg-[#f8fafc] page-transition">
+                    {/* Header Biblioteca Sci-Fi */}
+                    <div className="bg-[#0f172a] text-white py-16 px-6 sm:px-12 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-full h-full bg-grid-pattern opacity-20"></div>
+                        <div className="absolute -top-40 -right-40 w-96 h-96 bg-violet-600/20 rounded-full blur-[100px]"></div>
+                        <div className="absolute top-40 -left-20 w-72 h-72 bg-indigo-600/20 rounded-full blur-[80px]"></div>
+                        
+                        <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-8 relative z-10">
+                            <div className="slide-content-enter">
+                                <button onClick={goHome} className="flex items-center gap-2 text-violet-400 font-bold uppercase text-[11px] tracking-widest mb-6 hover:text-violet-300 transition-all">
+                                    <Icon name="arrow-left" size={16} /> Voltar ao Início
                                 </button>
-                                <h1 className="academic-title text-3xl sm:text-5xl font-black mb-1 uppercase leading-none">Biblioteca Ser!</h1>
-                                <p className="text-indigo-200/60 text-sm sm:text-base font-light mt-3 tracking-wide max-w-xl text-indigo-200 font-black text-indigo-200">Acervo completo das produções intelectuais desenvolvidas pelos nossos alunos.</p>
+                                <h1 className="academic-title text-4xl sm:text-6xl font-black mb-2 leading-none text-white">Biblioteca <span className="text-gradient">Ser!</span></h1>
+                                <p className="text-slate-400 text-sm sm:text-lg font-light mt-4 max-w-xl">Acervo digital tecnológico das produções intelectuais desenvolvidas pelos nossos alunos.</p>
                             </div>
-                            <div className="bg-white/10 px-5 py-4 rounded-2xl sm:rounded-3xl border border-white/10 flex items-center gap-4 w-full md:max-w-md shadow-2xl backdrop-blur-xl group focus-within:ring-2 ring-indigo-500 transition-all text-white font-black">
-                                <Icon name="search" size={20} className="text-indigo-400 group-focus-within:scale-110 transition-transform" />
-                                <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Pesquisar trabalho..." className="bg-transparent border-none text-white text-sm sm:text-base focus:outline-none w-full placeholder-white/30 font-medium text-white font-black" />
-                                {searchQuery && <button onClick={() => setSearchQuery('')} className="text-white/40 hover:text-white transition-all text-white font-black"><Icon name="x" size={18}/></button>}
+                            <div className="glass-panel-dark px-6 py-5 rounded-3xl flex items-center gap-4 w-full md:max-w-md shadow-[0_0_30px_rgba(139,92,246,0.1)] focus-within:shadow-[0_0_40px_rgba(79,70,229,0.3)] transition-all">
+                                <Icon name="search" size={22} className="text-violet-400" />
+                                <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Pesquisar projetos, autores..." className="bg-transparent border-none text-white text-base focus:outline-none w-full placeholder-slate-500 font-medium" />
+                                {searchQuery && <button onClick={() => setSearchQuery('')} className="text-slate-400 hover:text-white transition-all"><Icon name="x" size={20}/></button>}
                             </div>
                         </div>
                     </div>
-                    <div className="max-w-7xl mx-auto px-4 sm:px-12 py-10 sm:py-24 text-left">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10 text-left">
+
+                    <div className="max-w-7xl mx-auto px-6 sm:px-12 py-16 sm:py-24 bg-grid-pattern relative">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12">
                             {filteredArticles.map((art, index) => (
-                                <div key={art.id} className="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-slate-100 hover-lift group fade-in-up text-left" style={{ animationDelay: `${index * 0.05}s` }}>
-                                    <div className="h-44 sm:h-56 overflow-hidden relative">
-                                        <img src={art.bg} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt={art.title} />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent flex items-end p-5 sm:p-6 text-white text-left">
-                                            <span className="text-[9px] font-black bg-indigo-600 text-white px-3 py-1.5 rounded-lg uppercase tracking-widest text-white font-black">{art.area}</span>
+                                /* CARTÃO COM EFEITO GLOW NAS BORDAS AO PASSAR O RATO */
+                                <div key={art.id} className="tech-card group bg-white rounded-[2rem] overflow-hidden shadow-lg border-2 border-slate-100 fade-in-up flex flex-col" style={{ animationDelay: `${index * 0.05}s` }}>
+                                    <div className="h-48 sm:h-56 overflow-hidden relative">
+                                        <img src={art.bg} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt={art.title} />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent flex items-end p-6">
+                                            <span className="text-[10px] font-black bg-violet-500 text-white px-4 py-1.5 rounded-full uppercase tracking-widest shadow-[0_0_15px_rgba(139,92,246,0.5)]">{art.area}</span>
                                         </div>
                                     </div>
-                                    <div className="p-6 sm:p-8 text-left text-slate-900 font-black text-slate-900 font-black">
-                                        <h3 className="academic-title text-lg sm:text-xl font-bold text-slate-800 mb-3 leading-tight min-h-[3rem] line-clamp-2 uppercase italic text-left">{art.title}</h3>
-                                        <p className="text-[11px] text-slate-500 font-medium italic mb-6 line-clamp-1 border-l-2 border-indigo-100 pl-3 text-left">{art.authors}</p>
-                                        <div className="flex items-center gap-2 text-slate-400 text-[10px] font-black uppercase mb-8 pt-4 border-t border-slate-50 text-left"><Icon name="user-check" size={14} className="text-indigo-400" /> Prof. {art.prof}</div>
-                                        <div className="grid grid-cols-2 gap-3 sm:gap-4 text-left">
-                                            <button onClick={() => navigateTo('reader', art)} className="bg-[#151c32] text-white py-3 sm:py-3.5 rounded-2xl font-black text-[10px] uppercase hover:bg-indigo-600 transition-all active:scale-95 shadow-lg flex items-center justify-center text-white font-black">Ler Artigo</button>
-                                            <button onClick={() => navigateTo('banner', art)} className="bg-slate-50 text-slate-700 py-3 sm:py-3.5 rounded-2xl font-black text-[10px] uppercase hover:bg-slate-200 transition-all active:scale-95 border border-slate-100 flex items-center justify-center font-bold text-slate-700 font-black text-slate-700">Ver Banner</button>
+                                    <div className="p-8 flex flex-col flex-grow">
+                                        <h3 className="academic-title text-xl font-bold text-slate-800 mb-4 leading-tight min-h-[3.5rem] line-clamp-2 italic group-hover:text-indigo-700 transition-colors">{art.title}</h3>
+                                        <p className="text-xs text-slate-500 font-medium italic mb-6 line-clamp-2 border-l-2 border-violet-400 pl-3">{art.authors}</p>
+                                        <div className="flex items-center gap-2 text-slate-400 text-[11px] font-bold uppercase mb-8 mt-auto pt-4 border-t border-slate-100">
+                                            <Icon name="user" size={14} className="text-indigo-500" /> Prof. {art.prof}
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-4 mt-auto">
+                                            <button onClick={() => navigateTo('reader', art)} className="btn-tech bg-[#0f172a] text-white py-4 rounded-2xl font-black text-[10px] uppercase shadow-lg flex items-center justify-center">Ler Artigo</button>
+                                            <button onClick={() => navigateTo('banner', art)} className="bg-slate-100 text-slate-700 hover:bg-slate-200 py-4 rounded-2xl font-black text-[10px] uppercase transition-all flex items-center justify-center">Ver Banner</button>
                                         </div>
                                     </div>
                                 </div>
@@ -331,49 +284,66 @@
 
             const renderReader = () => (
                 <div className="w-full min-h-screen bg-[#0f172a] page-transition flex flex-col items-center">
-                    <div className="w-full bg-[#1e293b]/80 backdrop-blur-xl px-3 sm:px-6 py-4 flex items-center justify-between border-b border-white/5 sticky top-0 z-[100] text-white font-black text-left">
-                        <div className="flex items-center gap-3 flex-1 overflow-hidden">
-                            <button onClick={() => setView('catalog')} className="p-2 hover:bg-white/10 rounded-full text-white transition flex items-center justify-center shrink-0"><Icon name="arrow-left" size={24} /></button>
-                            <div className="text-left text-white truncate max-w-full text-left">
-                                <h2 className="academic-title text-sm sm:text-lg font-bold truncate text-white">{selectedArticle.title}</h2>
-                                <p className="text-[9px] sm:text-[10px] text-indigo-400 font-black uppercase tracking-widest mt-1 text-indigo-400 font-black">Edição 2024</p>
+                    <div className="w-full glass-panel-dark px-6 py-4 flex items-center justify-between sticky top-0 z-[100] border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+                        <div className="flex items-center gap-4 flex-1 overflow-hidden">
+                            <button onClick={() => setView('catalog')} className="p-2 hover:bg-white/10 rounded-full text-violet-400 transition flex items-center justify-center shrink-0"><Icon name="arrow-left" size={24} /></button>
+                            <div className="text-white truncate max-w-full">
+                                <h2 className="academic-title text-base sm:text-xl font-bold truncate">{selectedArticle.title}</h2>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <span className="w-2 h-2 rounded-full bg-violet-400 animate-pulse"></span>
+                                    <p className="text-[10px] text-violet-400 font-bold uppercase tracking-widest">Edição 2024</p>
+                                </div>
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
-                            <a href={selectedArticle.pdf.replace('/preview', '/view')} target="_blank" rel="noopener noreferrer" className="bg-indigo-600 text-white px-3 sm:px-5 py-2.5 rounded-xl font-black text-[9px] sm:text-xs uppercase hover:bg-indigo-500 transition-all shadow-xl btn-action-pulse text-white font-black"><Icon name="maximize-2" size={14} /> TELA CHEIA</a>
+                            <a href={selectedArticle.pdf.replace('/preview', '/view')} target="_blank" rel="noopener noreferrer" className="btn-tech bg-indigo-600 text-white px-5 py-3 rounded-xl font-black text-[10px] sm:text-xs uppercase shadow-[0_0_20px_rgba(79,70,229,0.4)] flex items-center gap-2">
+                                <Icon name="maximize" size={16} /> <span className="hidden sm:inline">Tela Cheia</span>
+                            </a>
                         </div>
                     </div>
-                    <div className="flex-grow w-full p-2 sm:p-10 flex flex-col items-center bg-[#0a0d1a]">
-                        <div className="pdf-viewer-container fade-in-up"><iframe key={`pdf-${selectedArticle.id}`} src={`${selectedArticle.pdf}?authuser=0`} className="w-full h-full border-none" allow="autoplay"></iframe></div>
+                    <div className="flex-grow w-full p-4 sm:p-12 flex flex-col items-center bg-grid-pattern relative">
+                        <div className="absolute inset-0 bg-gradient-to-b from-[#0f172a] via-transparent to-[#0f172a] pointer-events-none"></div>
+                        <div className="pdf-viewer-container fade-in-up shadow-[0_0_50px_rgba(139,92,246,0.15)] ring-1 ring-white/10 z-10">
+                            <iframe key={`pdf-${selectedArticle.id}`} src={`${selectedArticle.pdf}?authuser=0`} className="w-full h-full border-none bg-white rounded-[23px]" allow="autoplay"></iframe>
+                        </div>
                     </div>
                 </div>
             );
 
             const renderBanner = () => (
-                <div className="w-full min-h-screen bg-[#0f172a] page-transition flex flex-col items-center text-white">
-                    <div className="w-full px-3 sm:px-6 py-4 flex items-center justify-between border-b border-white/5 bg-[#1e293b]/80 backdrop-blur-xl sticky top-0 z-50 text-white font-black text-left">
-                        <button onClick={() => setView('catalog')} className="text-white/60 hover:text-white flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest transition text-white font-black"><Icon name="arrow-left" size={18} /> Voltar à Revista</button>
-                        <h2 className="academic-title text-white text-xs sm:text-xl font-bold uppercase tracking-tight text-center text-white font-black text-white">Visualização de Banner</h2>
-                        <a href={selectedArticle.banner} target="_blank" rel="noopener noreferrer" className="bg-indigo-600 text-white px-3 py-2.5 rounded-xl transition shadow-lg btn-action-pulse text-white font-black"><Icon name="maximize-2" size={14} /> TELA CHEIA</a>
+                <div className="w-full min-h-screen bg-[#0f172a] page-transition flex flex-col items-center">
+                    <div className="w-full glass-panel-dark px-6 py-4 flex items-center justify-between sticky top-0 z-[100] border-b border-white/10">
+                        <button onClick={() => setView('catalog')} className="text-violet-400 hover:text-violet-300 flex items-center gap-2 text-xs font-bold uppercase tracking-widest transition"><Icon name="arrow-left" size={18} /> Acervo</button>
+                        <h2 className="academic-title text-white text-sm sm:text-xl font-bold uppercase tracking-widest text-center">Visualizador de Projeto</h2>
+                        <a href={selectedArticle.banner} target="_blank" rel="noopener noreferrer" className="btn-tech bg-violet-500 text-white px-5 py-3 rounded-xl shadow-[0_0_20px_rgba(139,92,246,0.4)] flex items-center gap-2 font-black text-[10px] sm:text-xs uppercase">
+                            <Icon name="external-link" size={16} /> <span className="hidden sm:inline">Expandir</span>
+                        </a>
                     </div>
-                    <div className="flex-grow w-full max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-12 gap-8 p-6 items-center text-left text-white font-black text-left">
-                        <div className="w-full lg:col-span-8 flex justify-center group fade-in-up text-left text-white font-black text-white">
-                            <div className="relative bg-slate-900 rounded-2xl p-1.5 border border-white/10 shadow-2xl overflow-hidden text-center text-white">
-                                <img src={selectedArticle.bg} className="w-full h-auto rounded-xl max-h-[50vh] lg:max-h-[75vh]" alt="Banner" />
+                    <div className="flex-grow w-full max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-12 gap-10 p-6 sm:p-12 items-center relative">
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-indigo-600/10 blur-[120px] rounded-full pointer-events-none"></div>
+                        
+                        <div className="w-full lg:col-span-8 flex justify-center fade-in-up z-10">
+                            <div className="relative glass-panel-dark rounded-[2rem] p-2 shadow-2xl overflow-hidden ring-1 ring-white/10 group">
+                                <img src={selectedArticle.bg} className="w-full h-auto rounded-[1.5rem] max-h-[60vh] lg:max-h-[75vh] object-contain transition-transform duration-700 group-hover:scale-[1.02]" alt="Banner" />
                             </div>
                         </div>
-                        <div className="w-full lg:col-span-4 bg-white/[0.03] backdrop-blur-xl p-8 rounded-[2rem] border border-white/10 text-left text-white font-black">
-                            <h3 className="academic-title text-2xl font-bold mb-4 uppercase italic text-white text-left font-black text-white">{selectedArticle.title}</h3>
-                            <div className="space-y-6 text-slate-200 font-black text-slate-200">
-                                <div className="bg-white/[0.02] p-4 rounded-2xl border border-white/5 text-left text-slate-200"><div className="flex items-center gap-2 text-slate-400 text-[9px] uppercase font-bold tracking-widest mb-2 text-indigo-400"><Icon name="users" size={12} className="text-indigo-400" /> Autoria</div><p className="text-sm font-medium italic text-slate-200 text-left text-slate-200">{selectedArticle.authors}</p></div>
-                                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/5 text-left text-white font-black">
-                                    <div className="text-left font-bold"><div className="text-slate-400 text-[9px] uppercase font-bold tracking-widest mb-1 text-indigo-400">Itinerário</div><div className="text-indigo-200 font-bold uppercase text-xs text-indigo-200">{selectedArticle.area}</div></div>
-                                    <div className="text-right font-bold"><div className="text-slate-400 text-[9px] uppercase font-bold tracking-widest mb-1 text-indigo-400 text-right">Orientador</div><div className="text-slate-200 font-bold uppercase text-xs text-slate-200">{selectedArticle.prof}</div></div>
+                        <div className="w-full lg:col-span-4 glass-panel-dark p-8 sm:p-10 rounded-[2.5rem] slide-content-enter z-10 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-violet-500/10 blur-[40px]"></div>
+                            
+                            <h3 className="academic-title text-2xl sm:text-3xl font-bold mb-6 uppercase italic text-white leading-tight">{selectedArticle.title}</h3>
+                            <div className="space-y-6">
+                                <div className="bg-white/5 p-5 rounded-2xl border border-white/10 backdrop-blur-sm">
+                                    <div className="flex items-center gap-2 text-violet-400 text-[10px] uppercase font-black tracking-widest mb-3"><Icon name="users" size={14} /> Autores do Projeto</div>
+                                    <p className="text-sm font-medium italic text-slate-300 leading-relaxed">{selectedArticle.authors}</p>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="bg-white/5 p-4 rounded-2xl border border-white/10"><div className="text-slate-400 text-[9px] uppercase font-bold tracking-widest mb-2">Área / Itinerário</div><div className="text-violet-300 font-black uppercase text-xs">{selectedArticle.area}</div></div>
+                                    <div className="bg-white/5 p-4 rounded-2xl border border-white/10"><div className="text-slate-400 text-[9px] uppercase font-bold tracking-widest mb-2">Orientação</div><div className="text-white font-black uppercase text-xs">{selectedArticle.prof}</div></div>
                                 </div>
                             </div>
-                            <div className="mt-10 flex flex-col gap-4 text-left">
-                                <button onClick={() => navigateTo('reader', selectedArticle)} className="w-full bg-indigo-600 text-white font-black py-4 rounded-2xl uppercase text-xs transition-all shadow-xl btn-shimmer flex items-center justify-center gap-3 text-white font-black">
-                                    <Icon name="file-text" size={18} /> Ler Artigo Completo
+                            <div className="mt-10">
+                                <button onClick={() => navigateTo('reader', selectedArticle)} className="w-full btn-tech bg-indigo-600 text-white font-black py-5 rounded-2xl uppercase text-xs flex items-center justify-center gap-3">
+                                    Ler Pesquisa Completa <Icon name="arrow-right" size={18} />
                                 </button>
                             </div>
                         </div>
@@ -383,154 +353,234 @@
 
             // --- VISTA INICIAL ---
             const renderHome = () => (
-                <div className="text-left page-transition w-full bg-white font-black text-left">
-                    {/* 1. BANNER PRINCIPAL COM LOGO POR CIMA */}
-                    <div className="w-full fade-in-up relative leading-[0] block text-left">
-                        <img src={IMAGES.top_banner} alt="Banner Revista Científica" className="w-full h-auto object-cover border-b border-slate-100" />
-                        <div className="absolute top-0 left-0 w-full p-4 sm:p-10 flex justify-center sm:justify-start pointer-events-none">
-                            <img src={IMAGES.overlay_logo} alt="Logo Colégio Ser!" className="h-10 sm:h-28 w-auto object-contain drop-shadow-xl" />
+                <div className="w-full bg-[#f8fafc] page-transition relative">
+                    {/* Background global suave */}
+                    <div className="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none z-0"></div>
+
+                    {/* BARRA DE NAVEGAÇÃO FLUTUANTE (PILL NAV) */}
+                    <div className="floating-nav hidden sm:flex justify-center w-full pt-6 pointer-events-none">
+                        <div className="glass-panel px-8 py-4 rounded-full shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] flex items-center gap-8 pointer-events-auto">
+                            {[
+                                { id: 'apresentacao', label: 'Apresentação' },
+                                { id: 'edicoes', label: 'Revistas' },
+                                { id: 'evento', label: 'Evento 2025' },
+                                { id: 'destaques', label: 'Destaques' },
+                                { id: 'jornada', label: 'Jornada 2026' }
+                            ].map((item) => (
+                                <button 
+                                    key={item.id} 
+                                    onClick={() => scrollToSection(item.id)}
+                                    className="quick-nav-link text-xs font-bold uppercase tracking-[0.15em] text-slate-500 hover:text-indigo-600 transition-colors"
+                                >
+                                    {item.label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* 1. BANNER PRINCIPAL */}
+                    <div className="w-full fade-in-up relative z-10 rounded-b-[3rem] overflow-hidden shadow-2xl">
+                        <img src={IMAGES.top_banner} alt="Banner Revista Científica" className="w-full h-auto object-cover" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent pointer-events-none"></div>
+                        <div className="absolute top-4 sm:top-10 left-4 sm:left-12 pointer-events-none">
+                            <img src={IMAGES.overlay_logo} alt="Logo Colégio Ser!" className="h-12 sm:h-24 w-auto object-contain drop-shadow-2xl" />
                         </div>
                     </div>
 
                     {/* 2. SECÇÃO DE BOAS-VINDAS */}
-                    <section className="py-12 sm:py-24 px-4 sm:px-12 text-center text-slate-900 fade-in-up bg-white text-center text-slate-900 font-black text-slate-900">
-                        <div className="inline-flex items-center gap-3 mb-6 sm:mb-8 text-indigo-600 font-black text-indigo-600">
-                            <div className="h-px w-6 sm:w-16 bg-indigo-600 text-indigo-600 text-indigo-600"></div>
-                            <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.5em] text-indigo-600 font-bold text-indigo-600 text-indigo-600">Apresentação</span>
-                            <div className="h-px w-6 sm:w-16 bg-indigo-600 text-indigo-600 text-indigo-600"></div>
+                    <section id="apresentacao" className="py-20 sm:py-32 px-6 relative z-10 text-center">
+                        <div className="fade-in-up">
+                            <div className="inline-flex items-center gap-4 mb-8 px-6 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 shadow-sm">
+                                <Icon name="sparkles" size={16} className="text-indigo-500" />
+                                <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.3em]">Portal de Ciências</span>
+                            </div>
+                            <h2 className="academic-title text-4xl sm:text-7xl font-black text-slate-900 mb-8 leading-[1.1] uppercase">
+                                Revista de <br/><span className="text-gradient italic">Iniciação Científica Ser!</span>
+                            </h2>
+                            <p className="text-slate-500 text-lg sm:text-2xl font-light max-w-3xl mx-auto text-balance leading-relaxed">
+                                Explorando o futuro através da excelência acadêmica e do rigor metodológico nos nossos Itinerários Formativos.
+                            </p>
                         </div>
-                        <h2 className="academic-title text-4xl sm:text-7xl font-black text-[#151c32] mb-6 sm:mb-10 leading-tight uppercase text-center text-[#151c32]">Revista de <br/><span className="text-indigo-600 italic">Iniciação Científica Ser!</span></h2>
-                        <p className="text-slate-500 text-lg sm:text-2xl font-light max-w-4xl mx-auto text-balance text-center text-slate-500 font-black">A excelência acadêmica e o rigor científico dos nossos Itinerários Formativos.</p>
                     </section>
 
-                    {/* 3. SECÇÃO DA REVISTA */}
-                    <section className="bg-slate-50/50 py-12 sm:py-32 border-y border-slate-100 overflow-hidden px-4 sm:px-12 fade-in-up text-slate-900 text-left font-black text-left">
-                        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-28 text-left font-black text-slate-900 text-left">
-                            <div className="w-full lg:w-2/5 flex flex-col items-center group text-left font-black text-left">
-                                <div className="relative w-full max-w-[280px] sm:max-w-[360px] h-[380px] sm:h-[480px] text-left magazine-curl-container text-left">
-                                    <div className={`absolute inset-0 magazine-transition ${activeMagazineYear === 2024 ? 'opacity-100 scale-100 rotate-0 z-10' : 'opacity-0 scale-90 -rotate-12 pointer-events-none z-0'}`}>
-                                        <div className="curl-wrapper h-full w-full">
-                                            <img src={IMAGES.cover_2024} className="w-full h-full object-cover img-paper-shadow border-[8px] sm:border-[10px] border-white rounded-sm" />
+                    {/* 3. SECÇÃO DA REVISTA COM EFEITO REALISTA */}
+                    <section id="edicoes" className="py-20 sm:py-32 px-6 relative z-10">
+                        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+                            <div className="w-full lg:w-5/12 flex flex-col items-center relative">
+                                {/* Brilho atrás da revista */}
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-indigo-400/20 blur-[60px] rounded-full z-0"></div>
+                                
+                                <div className="relative w-full max-w-[300px] sm:max-w-[380px] aspect-[1/1.4] magazine-curl-container animate-float z-10">
+                                    {/* VOLUME 1 */}
+                                    <div className={`absolute inset-0 magazine-transition ${activeMagazineVol === 1 ? 'opacity-100 scale-100 rotate-0 z-10' : 'opacity-0 scale-90 -rotate-6 pointer-events-none z-0'}`}>
+                                        <div className="curl-wrapper">
+                                            <img src={IMAGES.cover_v1} className="w-full h-full object-cover img-paper-shadow" alt="Capa Edição 2024" />
                                         </div>
-                                        <div className="absolute -bottom-4 -left-4 bg-indigo-600 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-2xl shadow-2xl border-4 border-white/10 font-black italic text-sm sm:text-base z-[30]">2024</div>
+                                        <div className="absolute -bottom-5 -left-5 bg-indigo-600 text-white px-8 py-3 rounded-2xl shadow-xl border border-indigo-400/30 font-black italic text-sm tracking-wide z-30">Edição 2024</div>
                                     </div>
-                                    <div className={`absolute inset-0 magazine-transition ${activeMagazineYear === 2025 ? 'opacity-100 scale-100 rotate-0 z-10' : 'opacity-0 scale-90 rotate-12 pointer-events-none z-0'}`}>
-                                        <div className="curl-wrapper h-full w-full">
-                                            <div className="w-full h-full bg-white border-[10px] border-white rounded-sm img-paper-shadow flex flex-col items-center justify-center p-8 text-slate-300">
-                                                <Icon name="lock" size={64} className="mb-6 opacity-20 text-indigo-600 text-indigo-600" />
-                                                <h4 className="academic-title text-4xl font-black opacity-30 mb-2 text-slate-900 font-black">2025</h4>
-                                                <span className="text-[9px] font-black uppercase tracking-[0.4em] bg-slate-50 text-slate-400 px-6 py-2 rounded-full shadow-inner border border-slate-100 text-slate-400">Em Breve</span>
+                                    {/* VOLUME 2 */}
+                                    <div className={`absolute inset-0 magazine-transition ${activeMagazineVol === 2 ? 'opacity-100 scale-100 rotate-0 z-10' : 'opacity-0 scale-90 rotate-6 pointer-events-none z-0'}`}>
+                                        <div className="curl-wrapper">
+                                            <div className="w-full h-full glass-panel flex flex-col items-center justify-center p-8 text-slate-400 img-paper-shadow border border-white">
+                                                <Icon name="microscope" size={72} className="mb-6 opacity-30 text-indigo-500" />
+                                                <h4 className="academic-title text-5xl font-black opacity-40 mb-4 text-slate-800">Vol 2</h4>
+                                                <span className="text-[10px] font-black uppercase tracking-[0.4em] bg-white text-slate-500 px-6 py-2 rounded-full shadow-sm border border-slate-200">Em Desenvolvimento</span>
                                             </div>
                                         </div>
-                                        <div className="absolute -bottom-4 -left-4 bg-slate-400 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-2xl shadow-2xl border-4 border-white/10 font-black italic text-sm sm:text-base opacity-50 z-[30] text-white">2025</div>
+                                        <div className="absolute -bottom-5 -left-5 bg-slate-800 text-white px-8 py-3 rounded-2xl shadow-xl border border-slate-600 font-black italic text-sm tracking-wide z-30">Volume 2</div>
                                     </div>
                                 </div>
-                                <div className="mt-10 flex flex-row items-center gap-4 bg-white p-2 rounded-full border border-slate-200 shadow-xl text-left font-black text-slate-400 text-left text-slate-400">
-                                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest px-4 border-r border-slate-200">Volume</span>
-                                    <div className="flex gap-1.5 font-black text-slate-400">
-                                        {[2024, 2025].map(year => (
-                                            <button key={year} onClick={() => setActiveMagazineYear(year)} className={`w-10 h-10 rounded-full flex items-center justify-center transition-all font-black text-xs italic ${activeMagazineYear === year ? 'bg-[#151c32] text-white shadow-xl scale-110' : 'bg-transparent text-slate-400'}`}>{year.toString().slice(-2)}</button>
+                                
+                                {/* Seletor Sci-Fi */}
+                                <div className="mt-12 glass-panel p-2 rounded-full flex items-center shadow-lg z-10">
+                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-6 border-r border-slate-200">Edição</span>
+                                    <div className="flex gap-2 ml-2">
+                                        {[1, 2].map(vol => (
+                                            <button 
+                                                key={vol} 
+                                                onClick={() => setActiveMagazineVol(vol)} 
+                                                className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 font-black text-sm italic ${activeMagazineVol === vol ? 'bg-indigo-600 text-white shadow-[0_0_15px_rgba(79,70,229,0.5)] scale-110' : 'bg-transparent text-slate-400 hover:bg-slate-100'}`}
+                                            >
+                                                {vol}
+                                            </button>
                                         ))}
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full lg:w-3/5 space-y-8 text-left text-slate-900 font-black text-left text-slate-900 text-left">
-                                <div className="space-y-6 text-left text-slate-900">
-                                    <div className="flex items-center gap-4 text-indigo-600 font-black text-left text-indigo-600"><Icon name="book-marked" size={32} className="text-indigo-600" /><h2 className="academic-title text-3xl sm:text-5xl font-black text-slate-900 uppercase">Edição {activeMagazineYear}</h2></div>
-                                    <p className="text-slate-500 text-lg sm:text-xl leading-relaxed font-light italic max-w-xl text-left text-slate-500 text-left">
-                                        {activeMagazineYear === 2024 
-                                            ? "A edição de 2024 da Revista de Iniciação Científica Ser! reúne os principais projetos pelos alunos dos Itinerários Formativos, refletindo o compromisso com a pesquisa."
-                                            : "Aguarde o lançamento da nossa nova edição em desenvolvimento com os projetos que estão sendo criados neste ano."}
+                            
+                            <div className="w-full lg:w-7/12 space-y-10 text-center lg:text-left z-10">
+                                <div className="space-y-6">
+                                    <div className="flex items-center justify-center lg:justify-start gap-4">
+                                        <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center shadow-inner">
+                                            <Icon name="book-open" size={24} />
+                                        </div>
+                                        <h2 className="academic-title text-4xl sm:text-6xl font-black text-slate-900 uppercase">Volume {activeMagazineVol}</h2>
+                                    </div>
+                                    <p className="text-slate-600 text-xl sm:text-2xl leading-relaxed font-light text-balance">
+                                        {activeMagazineVol === 1 
+                                            ? "A edição de 2024 da Revista de Iniciação Científica Ser! reúne os principais projetos pelos alunos dos Itinerários Formativos, refletindo o nosso compromisso inabalável com a pesquisa."
+                                            : "Aguarde o lançamento do nosso próximo volume, atualmente em desenvolvimento com os novos projetos científicos deste ano letivo."}
                                     </p>
                                 </div>
-                                {activeMagazineYear === 2024 ? (
-                                    <button onClick={openCatalog} className="w-full max-w-sm py-4 sm:py-5 bg-[#151c32] text-white font-black rounded-[1.5rem] text-[11px] sm:text-sm uppercase tracking-[0.3em] hover:bg-indigo-600 transition-all shadow-2xl flex items-center justify-center gap-4 active:scale-95 btn-shimmer text-white font-black">EXPLORAR REVISTA <Icon name="book-open" size={20} /></button>
+                                {activeMagazineVol === 1 ? (
+                                    <button onClick={openCatalog} className="btn-tech w-full lg:w-auto px-10 py-5 bg-[#0f172a] text-white font-black rounded-2xl text-xs sm:text-sm uppercase tracking-[0.3em] flex items-center justify-center gap-4">
+                                        Explorar Acervo <Icon name="arrow-right" size={20} className="text-violet-400" />
+                                    </button>
                                 ) : (
-                                    <div className="inline-flex items-center gap-4 text-slate-400 font-black uppercase text-[10px] tracking-widest border-2 border-dashed border-slate-200 px-8 py-5 rounded-[1.5rem] bg-white/50 backdrop-blur-sm text-slate-400">Publicação em curso</div>
+                                    <div className="inline-flex items-center gap-4 text-slate-400 font-black uppercase text-xs tracking-widest px-8 py-5 rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50">Pesquisa em Andamento</div>
                                 )}
                             </div>
                         </div>
                     </section>
 
-                    {/* 4. SECÇÃO DE VÍDEO EXPANDIDA (SEM GALERIA) */}
-                    <section className="py-16 sm:py-32 bg-white px-4 sm:px-12 fade-in-up text-slate-900 text-center">
-                        <div className="max-w-5xl mx-auto space-y-10">
-                            <div className="space-y-6 text-center">
-                                <div className="inline-flex items-center gap-3 text-indigo-600 font-black">
-                                    <Icon name="play-circle" size={32} />
-                                    <h2 className="academic-title text-3xl sm:text-6xl font-black text-[#151c32] uppercase">Confira como foi o evento de 2025</h2>
+                    {/* 4. SECÇÃO DE VÍDEO EXPANDIDA (Fundo Escuro) */}
+                    <section id="evento" className="py-24 sm:py-32 bg-[#0f172a] px-6 relative overflow-hidden">
+                        <div className="absolute top-0 w-full h-px bg-gradient-to-r from-transparent via-violet-500 to-transparent opacity-50"></div>
+                        <div className="absolute bottom-0 w-full h-px bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-50"></div>
+                        
+                        <div className="max-w-6xl mx-auto space-y-12 relative z-10">
+                            <div className="text-center space-y-6">
+                                <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-violet-900/30 border border-violet-500/30 text-violet-400 mb-4">
+                                    <Icon name="play" size={14} />
+                                    <span className="text-[10px] font-black uppercase tracking-[0.3em]">Registro Audiovisual</span>
                                 </div>
-                                <p className="text-slate-500 text-lg sm:text-2xl font-light leading-relaxed max-w-3xl mx-auto text-balance">
+                                <h2 className="academic-title text-4xl sm:text-6xl font-black text-white uppercase">Evento Científico <span className="text-violet-400">2025</span></h2>
+                                <p className="text-slate-400 text-lg sm:text-xl font-light max-w-3xl mx-auto text-balance">
                                     Reviva os melhores momentos da nossa última mostra científica, onde a inovação e o protagonismo estudantil ganharam vida.
                                 </p>
                             </div>
                             
-                            <div className="w-full relative shadow-[0_40px_100px_-20px_rgba(0,0,0,0.3)] rounded-[2.5rem] overflow-hidden bg-black border-4 border-slate-50">
-                                <div className="video-container">
-                                    <iframe 
-                                        src={IMAGES.event_video_url} 
-                                        className="w-full h-full border-none" 
-                                        allow="autoplay; encrypted-media; fullscreen"
-                                    ></iframe>
+                            <div className="w-full relative shadow-[0_0_80px_rgba(139,92,246,0.15)] rounded-[2.5rem] overflow-hidden bg-black p-1">
+                                <div className="absolute inset-0 bg-gradient-to-tr from-violet-500 via-indigo-500 to-purple-500 rounded-[2.5rem] opacity-30 animate-pulse"></div>
+                                <div className="video-container relative z-10 rounded-[2.3rem] border border-white/10">
+                                    <iframe src={IMAGES.event_video_url} className="w-full h-full border-none" allow="autoplay; encrypted-media; fullscreen"></iframe>
                                 </div>
                             </div>
                         </div>
                     </section>
 
-                    {/* 5. CARROSSEL DE DESTAQUES */}
-                    <section className="relative min-h-[550px] sm:min-h-[700px] flex items-center bg-[#151c32] overflow-hidden bg-hero-carousel shadow-inner mx-0 sm:mx-12 sm:rounded-[4rem] my-0 sm:my-32 text-left fade-in-up text-white text-left" style={{ backgroundImage: `linear-gradient(to right, rgba(21, 28, 50, 0.98), rgba(21, 28, 50, 0.7)), url('${ARTICLES_DATA[activeSlide].bg}')` }}>
-                        <div className="absolute bottom-0 left-0 w-full h-1.5 bg-white/10 z-40 overflow-hidden">
-                            <div className="h-full bg-indigo-500 transition-all duration-100 ease-linear" style={{ width: `${progress}%` }}></div>
+                    {/* 5. CARROSSEL TECH */}
+                    <section id="destaques" className="relative min-h-[600px] sm:min-h-[800px] flex items-center bg-[#0f172a] overflow-hidden bg-hero-carousel shadow-2xl mx-4 sm:mx-12 sm:rounded-[3rem] my-20 sm:my-32 text-white" style={{ backgroundImage: `url('${ARTICLES_DATA[activeSlide].bg}')` }}>
+                        {/* Overlay Gradiente Escuro para legibilidade tech */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a] via-[#0f172a]/90 to-transparent"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-transparent opacity-80"></div>
+                        
+                        {/* Progress Bar High-Tech */}
+                        <div className="absolute bottom-0 left-0 w-full h-2 bg-white/5 z-40 overflow-hidden">
+                            <div className="h-full bg-violet-400 transition-all duration-100 ease-linear shadow-[0_0_15px_#a78bfa]" style={{ width: `${progress}%` }}></div>
                         </div>
-                        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between px-3 sm:px-14 z-30 pointer-events-none text-white font-black text-left">
-                            <button onClick={prevSlide} className="w-10 h-10 sm:w-16 sm:h-16 flex items-center justify-center rounded-full bg-white/10 border border-white/20 text-white hover:bg-indigo-600 transition-all pointer-events-auto backdrop-blur-md active:scale-90 text-white font-black"><Icon name="chevron-left" size={20} /></button>
-                            <button onClick={nextSlide} className="w-10 h-10 sm:w-16 sm:h-16 flex items-center justify-center rounded-full bg-white/10 border border-white/20 text-white hover:bg-indigo-600 transition-all pointer-events-auto backdrop-blur-md active:scale-90 text-white font-black"><Icon name="chevron-right" size={20} /></button>
+
+                        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between px-4 sm:px-12 z-30 pointer-events-none">
+                            <button onClick={prevSlide} className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center rounded-full glass-panel-dark text-white hover:bg-violet-500 hover:border-violet-400 transition-all pointer-events-auto active:scale-90"><Icon name="chevron-left" size={24} /></button>
+                            <button onClick={nextSlide} className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center rounded-full glass-panel-dark text-white hover:bg-violet-500 hover:border-violet-400 transition-all pointer-events-auto active:scale-90"><Icon name="chevron-right" size={24} /></button>
                         </div>
-                        <div className="relative max-w-6xl mx-auto px-6 sm:px-20 w-full z-10 text-left py-20 sm:py-0 text-white font-black text-left text-white text-left">
-                            <div key={`slide-${activeSlide}`} className="slide-content-enter text-white text-left font-black text-white text-left text-white text-left">
-                                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-500/20 rounded-full border border-indigo-500/30 mb-6 text-white font-black text-white font-black text-white text-indigo-300 text-left"><Icon name="award" size={14} className="text-indigo-300" /><span className="text-[10px] font-black uppercase tracking-widest text-indigo-200 text-left">Destaque Científico</span></div>
-                                <h2 className="modern-title text-3xl sm:text-5xl md:text-7xl font-black leading-[1.1] uppercase max-w-4xl mb-8 text-white tracking-tighter text-balance text-left text-white font-black text-left">{ARTICLES_DATA[activeSlide].title}</h2>
-                                <div className="flex flex-wrap gap-4 sm:gap-8 text-[10px] uppercase font-black tracking-[0.2em] text-indigo-300/80 mb-10 text-left text-white font-black text-left"><span className="flex items-center gap-2 text-white border-b border-indigo-500/30 pb-1 font-black text-white font-black text-white text-left"><Icon name="book" size={14} className="text-white" /> {ARTICLES_DATA[activeSlide].area}</span><span className="flex items-center gap-2 text-white border-b border-indigo-500/30 pb-1 font-black text-white font-black text-white text-white font-black text-left"><Icon name="user-check" size={14} className="text-white" /> Prof. {ARTICLES_DATA[activeSlide].prof}</span></div>
-                                <div className="flex flex-col sm:flex-row gap-5 text-left text-white font-black text-left text-left">
-                                    <button onClick={() => navigateTo('reader', ARTICLES_DATA[activeSlide])} className="w-full sm:w-auto px-12 py-5 sm:py-6 bg-indigo-600 text-white font-black rounded-2xl hover:bg-indigo-500 transition-all shadow-2xl text-[11px] sm:text-xs uppercase tracking-[0.3em] active:scale-95 flex items-center justify-center btn-shimmer text-white font-black text-white text-left">
-                                        LER ARTIGO <Icon name="file-text" size={20} className="ml-2 text-white" />
+
+                        <div className="relative max-w-7xl mx-auto px-8 sm:px-24 w-full z-10 py-20 sm:py-0">
+                            <div key={`slide-${activeSlide}`} className="slide-content-enter max-w-4xl">
+                                <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-violet-500/10 border border-violet-500/30 mb-8 backdrop-blur-md">
+                                    <span className="relative flex h-3 w-3"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span><span className="relative inline-flex rounded-full h-3 w-3 bg-violet-500"></span></span>
+                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-violet-300">Destaque Científico</span>
+                                </div>
+                                
+                                <h2 className="modern-title text-4xl sm:text-6xl md:text-8xl font-black leading-[1.05] uppercase mb-8 text-white tracking-tighter text-balance drop-shadow-2xl">
+                                    {ARTICLES_DATA[activeSlide].title}
+                                </h2>
+                                
+                                <div className="flex flex-wrap gap-6 sm:gap-10 text-[11px] sm:text-xs uppercase font-bold tracking-[0.2em] text-slate-300 mb-12">
+                                    <span className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-xl backdrop-blur-sm border border-white/10"><Icon name="compass" size={16} className="text-violet-400" /> {ARTICLES_DATA[activeSlide].area}</span>
+                                    <span className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-xl backdrop-blur-sm border border-white/10"><Icon name="user-check" size={16} className="text-indigo-400" /> Prof. {ARTICLES_DATA[activeSlide].prof}</span>
+                                </div>
+                                
+                                <div className="flex flex-col sm:flex-row gap-5">
+                                    <button onClick={() => navigateTo('reader', ARTICLES_DATA[activeSlide])} className="btn-tech w-full sm:w-auto px-12 py-5 bg-violet-500 text-white font-black rounded-2xl hover:bg-violet-400 shadow-[0_0_30px_rgba(139,92,246,0.4)] text-[11px] sm:text-xs uppercase tracking-[0.2em] flex items-center justify-center">
+                                        Ler Artigo Completo <Icon name="file-text" size={18} className="ml-3" />
                                     </button>
-                                    <button onClick={() => navigateTo('banner', ARTICLES_DATA[activeSlide])} className="w-full sm:w-auto px-12 py-5 sm:py-6 bg-white/5 border border-white/20 text-white font-black rounded-2xl hover:bg-white/10 transition-all text-[11px] sm:text-xs uppercase tracking-[0.3em] backdrop-blur-md active:scale-95 flex items-center justify-center text-white font-black text-white text-left">
-                                        VER BANNER <Icon name="image" size={20} className="ml-2 text-white" />
+                                    <button onClick={() => navigateTo('banner', ARTICLES_DATA[activeSlide])} className="w-full sm:w-auto px-12 py-5 glass-panel-dark text-white font-black rounded-2xl hover:bg-white/10 text-[11px] sm:text-xs uppercase tracking-[0.2em] flex items-center justify-center transition-colors">
+                                        Explorar Banner <Icon name="image" size={18} className="ml-3 text-violet-400" />
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </section>
 
-                    {/* 6. JORNADA 2026 */}
-                    <section className="bg-slate-900 py-20 sm:py-32 px-4 sm:px-12 text-left text-white relative overflow-hidden fade-in-up text-left font-black text-white text-left">
-                        <div className="absolute bottom-0 right-0 w-full h-full bg-gradient-to-t from-indigo-600/5 to-transparent text-left text-white text-left"></div>
-                        <div className="max-w-6xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-16 items-center relative z-10 text-left text-white font-black text-left text-white text-left font-black text-left">
-                            <div className="space-y-8 text-left text-white font-black text-left text-white text-left text-white font-black text-left">
-                                <div className="flex items-center gap-4 text-indigo-400 font-black text-left text-indigo-400 leading-none text-left text-left text-indigo-400 font-black text-left text-left"><Icon name="calendar-days" size={32} className="text-indigo-400 text-indigo-400 text-left" /><h2 className="academic-title text-3xl sm:text-6xl font-black tracking-tight uppercase text-white font-black leading-none text-white font-black text-left text-white font-black text-left text-left">Jornada 2026</h2></div>
-                                <p className="text-slate-400 text-lg sm:text-2xl font-light leading-relaxed text-balance text-left text-slate-400 text-left text-slate-400 text-left">O amanhã da ciência já está sendo construído com novos compromissos e descobertas nos Itinerários Formativos.</p>
+                    {/* 6. JORNADA 2026 - SCIFI */}
+                    <section id="jornada" className="py-24 sm:py-40 px-6 relative overflow-hidden bg-slate-50">
+                        <div className="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-indigo-100/50 to-transparent pointer-events-none"></div>
+                        
+                        <div className="max-w-6xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-16 items-center relative z-10">
+                            <div className="space-y-8">
+                                <div className="flex items-center gap-4 text-indigo-600">
+                                    <div className="p-4 bg-indigo-100 rounded-2xl"><Icon name="rocket" size={32} /></div>
+                                    <h2 className="academic-title text-4xl sm:text-6xl font-black tracking-tight uppercase leading-none text-slate-900">Jornada 2026</h2>
+                                </div>
+                                <p className="text-slate-500 text-xl font-light leading-relaxed text-balance">
+                                    O amanhã da ciência já está sendo construído com novos compromissos, algoritmos e descobertas nos Itinerários Formativos. Prepare-se para a próxima fronteira do conhecimento.
+                                </p>
                             </div>
-                            <div className="relative flex justify-center lg:justify-end text-center group text-[#151c32] font-black text-center text-[#151c32] text-center text-white text-center">
-                                <div className="bg-white p-6 sm:p-10 rounded-[3rem] sm:rounded-[4rem] shadow-2xl flex flex-col items-center justify-center w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] border border-white/10 transition-all duration-700 hover:scale-105 text-[#151c32] overflow-hidden text-center text-[#151c32] text-center text-[#151c32] font-black text-center">
-                                    <span className="text-[10px] sm:text-[12px] font-black uppercase tracking-[0.4em] text-slate-400 block mb-4 text-center leading-tight text-center text-slate-400 font-black text-center text-slate-400 font-black text-center text-slate-400">Próximo Volume em</span>
-                                    <h3 className="academic-title text-6xl sm:text-7xl md:text-8xl font-black text-[#151c32] uppercase tracking-tighter text-center leading-none text-[#151c32] font-black text-center text-[#151c32] font-black text-center text-[#151c32] font-black text-center text-[#151c32]">2026</h3>
-                                    <div className="h-2 w-16 bg-indigo-600 mx-auto mt-8 rounded-full opacity-30 bg-indigo-600 font-black text-center bg-indigo-600 font-black text-center text-indigo-600 font-black text-center"></div>
+                            
+                            <div className="relative flex justify-center lg:justify-end">
+                                <div className="relative p-2 rounded-[3rem] bg-gradient-to-tr from-indigo-600 to-violet-400 animate-pulse-slow shadow-2xl">
+                                    <div className="bg-white p-10 sm:p-16 rounded-[2.8rem] flex flex-col items-center justify-center w-[280px] sm:w-[380px] aspect-square relative overflow-hidden text-center z-10">
+                                        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+                                        <Icon name="cpu" size={40} className="text-indigo-200 mb-6" />
+                                        <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.4em] text-slate-400 block mb-4">Próximo Lançamento em</span>
+                                        <h3 className="text-7xl sm:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-500 uppercase tracking-tighter leading-none drop-shadow-sm">2026</h3>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </section>
 
-                    <div className="max-w-5xl mx-auto px-6 py-20 sm:py-32 text-center border-t border-slate-50 text-center text-slate-800 font-black text-center text-slate-800 font-black text-center text-slate-800 font-black text-center text-slate-800">
-                        <Icon name="heart" size={40} className="text-indigo-600 mb-8 mx-auto opacity-70 animate-pulse text-indigo-600 font-black text-center text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600" />
-                        <h3 className="academic-title text-xl sm:text-4xl font-bold italic text-slate-800 tracking-tight text-balance leading-snug text-slate-800 font-black text-center text-slate-800 font-black text-center text-slate-800 font-black text-center text-slate-800">"O melhor caminho é o que fazemos juntos"</h3>
-                        <div className="mt-12 text-[10px] sm:text-[11px] font-black uppercase tracking-[0.4em] text-slate-300 font-black text-center text-slate-300 font-black text-center text-slate-300 font-black text-center text-slate-300 font-black text-center text-slate-300">Colégio Ser! Sorocaba • Alfabetização Científica</div>
+                    <div className="w-full bg-[#0f172a] px-6 py-16 text-center text-slate-400 border-t border-slate-800">
+                        <Icon name="hexagon" size={32} className="text-violet-500 mb-6 mx-auto opacity-70" />
+                        <h3 className="academic-title text-xl sm:text-3xl font-bold italic text-white tracking-tight text-balance leading-snug">"A inovação começa com a curiosidade."</h3>
+                        <div className="mt-8 text-[10px] sm:text-xs font-black uppercase tracking-[0.4em] text-slate-500">Colégio Ser! Sorocaba • Alfabetização Científica</div>
                     </div>
                 </div>
             );
 
             return (
-                <div className="min-h-screen bg-white h-full w-full">
+                <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-violet-200 selection:text-violet-900">
                     {view === 'home' && renderHome()}
                     {view === 'catalog' && renderCatalog()}
                     {view === 'reader' && renderReader()}
